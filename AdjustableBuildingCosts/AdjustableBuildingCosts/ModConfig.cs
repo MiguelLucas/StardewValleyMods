@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdjustableUpgradeCosts.Framework
+namespace AdjustableBuildingCosts.Framework
 {
     class ModConfig
     {
@@ -86,7 +86,7 @@ namespace AdjustableUpgradeCosts.Framework
             this.SlimeHutch.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 1));
 
             this.ShippingBin.GoldCost = 250;
-            this.Well.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
+            this.ShippingBin.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
 
         }
     }
