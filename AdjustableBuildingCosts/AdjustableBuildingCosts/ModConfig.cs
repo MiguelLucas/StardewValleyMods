@@ -8,86 +8,101 @@ namespace AdjustableBuildingCosts.Framework
 {
     class ModConfig
     {
-
-        public BlueprintCost Coop { get; set; } = new BlueprintCost();
-        public BlueprintCost BigCoop { get; set; } = new BlueprintCost();
-        public BlueprintCost DeluxeCoop { get; set; } = new BlueprintCost();
-        public BlueprintCost Barn { get; set; } = new BlueprintCost();
-        public BlueprintCost BigBarn { get; set; } = new BlueprintCost();
-        public BlueprintCost DeluxeBarn { get; set; } = new BlueprintCost();
-        public BlueprintCost Shed { get; set; } = new BlueprintCost();
-        public BlueprintCost BigShed { get; set; } = new BlueprintCost();
-        public BlueprintCost Silo { get; set; } = new BlueprintCost();
-        public BlueprintCost Mill { get; set; } = new BlueprintCost();
-        public BlueprintCost Well { get; set; } = new BlueprintCost();
-        public BlueprintCost Stable { get; set; } = new BlueprintCost();
-        public BlueprintCost FishPond { get; set; } = new BlueprintCost();
-        public BlueprintCost SlimeHutch { get; set; } = new BlueprintCost();
-        public BlueprintCost ShippingBin { get; set; } = new BlueprintCost();
+        public Dictionary<string, BlueprintCost> Buildings { get; set; } = new Dictionary<string, BlueprintCost>();
 
         public ModConfig()
         {
-            this.Coop.GoldCost = 4000;
-            this.Coop.Items.Add(new ItemAmount((int) ItemID.WOOD, 300));
-            this.Coop.Items.Add(new ItemAmount((int) ItemID.STONE, 100));
+            BlueprintCost coop = new BlueprintCost();
+            coop.GoldCost = 4000;
+            coop.Items.Add(new ItemAmount((int) ItemID.WOOD, 300));
+            coop.Items.Add(new ItemAmount((int) ItemID.STONE, 100));
 
-            this.BigCoop.GoldCost = 10000;
-            this.BigCoop.Items.Add(new ItemAmount((int) ItemID.WOOD, 400));
-            this.BigCoop.Items.Add(new ItemAmount((int) ItemID.STONE, 150));
+            BlueprintCost bigCoop = new BlueprintCost();
+            bigCoop.GoldCost = 10000;
+            bigCoop.Items.Add(new ItemAmount((int) ItemID.WOOD, 400));
+            bigCoop.Items.Add(new ItemAmount((int) ItemID.STONE, 150));
 
-            this.DeluxeCoop.GoldCost = 20000;
-            this.DeluxeCoop.Items.Add(new ItemAmount((int) ItemID.WOOD, 500));
-            this.DeluxeCoop.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
+            BlueprintCost deluxeCoop = new BlueprintCost();
+            deluxeCoop.GoldCost = 20000;
+            deluxeCoop.Items.Add(new ItemAmount((int) ItemID.WOOD, 500));
+            deluxeCoop.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
 
-            this.Barn.GoldCost = 6000;
-            this.Barn.Items.Add(new ItemAmount((int) ItemID.WOOD, 350));
-            this.Barn.Items.Add(new ItemAmount((int) ItemID.STONE, 150));
+            BlueprintCost barn = new BlueprintCost();
+            barn.GoldCost = 6000;
+            barn.Items.Add(new ItemAmount((int) ItemID.WOOD, 350));
+            barn.Items.Add(new ItemAmount((int) ItemID.STONE, 150));
 
-            this.BigBarn.GoldCost = 12000;
-            this.BigBarn.Items.Add(new ItemAmount((int) ItemID.WOOD, 450));
-            this.BigBarn.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
+            BlueprintCost bigBarn = new BlueprintCost();
+            bigBarn.GoldCost = 12000;
+            bigBarn.Items.Add(new ItemAmount((int) ItemID.WOOD, 450));
+            bigBarn.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
 
-            this.DeluxeBarn.GoldCost = 25000;
-            this.DeluxeBarn.Items.Add(new ItemAmount((int) ItemID.WOOD, 550));
-            this.DeluxeBarn.Items.Add(new ItemAmount((int) ItemID.STONE, 300));
+            BlueprintCost deluxeBarn = new BlueprintCost();
+            deluxeBarn.GoldCost = 25000;
+            deluxeBarn.Items.Add(new ItemAmount((int) ItemID.WOOD, 550));
+            deluxeBarn.Items.Add(new ItemAmount((int) ItemID.STONE, 300));
 
-            this.Shed.GoldCost = 15000;
-            this.Shed.Items.Add(new ItemAmount((int) ItemID.WOOD, 300));
+            BlueprintCost shed = new BlueprintCost();
+            shed.GoldCost = 15000;
+            shed.Items.Add(new ItemAmount((int) ItemID.WOOD, 300));
 
-            this.BigShed.GoldCost = 20000;
-            this.BigShed.Items.Add(new ItemAmount((int) ItemID.WOOD, 550));
-            this.BigShed.Items.Add(new ItemAmount((int) ItemID.STONE, 300));
+            BlueprintCost bigShed = new BlueprintCost();
+            bigShed.GoldCost = 20000;
+            bigShed.Items.Add(new ItemAmount((int) ItemID.WOOD, 550));
+            bigShed.Items.Add(new ItemAmount((int) ItemID.STONE, 300));
 
-            this.Silo.GoldCost = 1000;
-            this.Silo.Items.Add(new ItemAmount((int) ItemID.STONE, 100));
-            this.Silo.Items.Add(new ItemAmount((int) ItemID.CLAY, 10));
-            this.Silo.Items.Add(new ItemAmount((int) ItemID.COPPER_BAR, 5));
+            BlueprintCost silo = new BlueprintCost();
+            silo.GoldCost = 1000;
+            silo.Items.Add(new ItemAmount((int) ItemID.STONE, 100));
+            silo.Items.Add(new ItemAmount((int) ItemID.CLAY, 10));
+            silo.Items.Add(new ItemAmount((int) ItemID.COPPER_BAR, 5));
 
-            this.Mill.GoldCost = 2500;
-            this.Mill.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
-            this.Mill.Items.Add(new ItemAmount((int) ItemID.STONE, 50));
-            this.Mill.Items.Add(new ItemAmount((int) ItemID.CLOTH, 4));
+            BlueprintCost mill = new BlueprintCost();
+            mill.GoldCost = 2500;
+            mill.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
+            mill.Items.Add(new ItemAmount((int) ItemID.STONE, 50));
+            mill.Items.Add(new ItemAmount((int) ItemID.CLOTH, 4));
 
-            this.FishPond.GoldCost = 5000;
-            this.FishPond.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
-            this.FishPond.Items.Add(new ItemAmount((int) ItemID.SEAWEED, 5));
-            this.FishPond.Items.Add(new ItemAmount((int) ItemID.GREEN_ALGAE, 5));
+            BlueprintCost well = new BlueprintCost();
+            well.GoldCost = 1000;
+            well.Items.Add(new ItemAmount((int) ItemID.STONE, 75));
 
-            this.Well.GoldCost = 1000;
-            this.Well.Items.Add(new ItemAmount((int) ItemID.STONE, 75));
+            BlueprintCost fishPond = new BlueprintCost();
+            fishPond.GoldCost = 5000;
+            fishPond.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
+            fishPond.Items.Add(new ItemAmount((int) ItemID.SEAWEED, 5));
+            fishPond.Items.Add(new ItemAmount((int) ItemID.GREEN_ALGAE, 5));
 
-            this.Stable.GoldCost = 10000;
-            this.Stable.Items.Add(new ItemAmount((int) ItemID.HARDWOOD, 100));
-            this.Stable.Items.Add(new ItemAmount((int) ItemID.IRON_BAR, 5));
+            BlueprintCost stable = new BlueprintCost();
+            stable.GoldCost = 10000;
+            stable.Items.Add(new ItemAmount((int) ItemID.HARDWOOD, 100));
+            stable.Items.Add(new ItemAmount((int) ItemID.IRON_BAR, 5));
 
-            this.SlimeHutch.GoldCost = 10000;
-            this.SlimeHutch.Items.Add(new ItemAmount((int) ItemID.STONE, 500));
-            this.SlimeHutch.Items.Add(new ItemAmount((int) ItemID.REFINED_QUARTZ, 10));
-            this.SlimeHutch.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 1));
+            BlueprintCost slimeHutch = new BlueprintCost();
+            slimeHutch.GoldCost = 10000;
+            slimeHutch.Items.Add(new ItemAmount((int) ItemID.STONE, 500));
+            slimeHutch.Items.Add(new ItemAmount((int) ItemID.REFINED_QUARTZ, 10));
+            slimeHutch.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 1));
 
-            this.ShippingBin.GoldCost = 250;
-            this.ShippingBin.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
+            BlueprintCost shippingBin = new BlueprintCost();
+            shippingBin.GoldCost = 250;
+            shippingBin.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
 
+            Buildings.Add("Coop", coop);
+            Buildings.Add("Big Coop", bigCoop);
+            Buildings.Add("Deluxe Coop", deluxeCoop);
+            Buildings.Add("Barn", barn);
+            Buildings.Add("Big Barn", bigBarn);
+            Buildings.Add("Deluxe Barn", deluxeBarn);
+            Buildings.Add("Shed", shed);
+            Buildings.Add("Big Shed", bigShed);
+            Buildings.Add("Silo", silo);
+            Buildings.Add("Mill", mill);
+            Buildings.Add("Well", well);
+            Buildings.Add("Fish Pond", fishPond);
+            Buildings.Add("Stable", stable);
+            Buildings.Add("Slime Hutch", slimeHutch);
+            Buildings.Add("Shipping Bin", shippingBin);
         }
     }
 }

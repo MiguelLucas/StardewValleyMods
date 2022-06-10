@@ -29,18 +29,6 @@ namespace AdjustableBuildingCosts
         {
             this.Config = this.Helper.ReadConfig<ModConfig>();
 
-            
-            this.Monitor.Log(Config.Silo.ToString(), LogLevel.Info);
-
-            IDictionary<string, string> data = helper.GameContent.Load<Dictionary<string, string>>("Data/Blueprints");
-
-
-            foreach (string key in data.Keys) {
-                string line = data[key];
-
-                this.Monitor.Log(line, LogLevel.Info);
-            }
-
             helper.Events.Content.AssetRequested += this.OnAssetRequested;
             //helper.Events.Display.MenuChanged += this.OnMenuChanged;
         }
@@ -62,8 +50,6 @@ namespace AdjustableBuildingCosts
 
 
                     foreach (string itemID in data.Keys) {
-                        
-                        this.Monitor.Log("Before -> " + data[itemID], LogLevel.Info);
 
                         string[] fields = data[itemID].Split('/');
 
@@ -71,23 +57,14 @@ namespace AdjustableBuildingCosts
                             string name = fields[8];
                             string formattedCost = "";
 
-                            //this.Monitor.Log("Before name -> " + name, LogLevel.Info);
-                            switch (name) {
-                                case "Silo":
-                                    formattedCost = Config.Silo.getFormattedBlueprintCost();
-                                    break;
-                                default:
-                                    //maintain current cost
-                                    formattedCost = fields[0];
-                                    break;
-                            }
-                            //this.Monitor.Log("After cost -> " + formattedCost, LogLevel.Info);
-                            fields[0] = formattedCost;
-                            data[itemID] = string.Join("/", fields);
+                            if (Config.Buildings.ContainsKey(name)) {
+                                formattedCost = Config.Buildings[name].getFormattedBlueprintCost();
+                                fields[0] = formattedCost;
+                                data[itemID] = string.Join("/", fields);
 
-                            
+                                this.Monitor.Log("Changed '" + name + "' costs to " + Config.Buildings[name].getFormattedBlueprintCost(), LogLevel.Info);
+                            }
                         }
-                        this.Monitor.Log("After -> " + data[itemID], LogLevel.Info);
                     }
                 });
             }
