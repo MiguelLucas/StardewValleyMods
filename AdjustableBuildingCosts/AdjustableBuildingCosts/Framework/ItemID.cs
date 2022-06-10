@@ -8,6 +8,8 @@ namespace AdjustableUpgradeCosts.Framework
 {
     enum ItemID
     {
+        SEAWEED = 152,
+        GREEN_ALGAE = 153,
         STONE = 390,
         WOOD = 388,
         HARDWOOD = 709,
