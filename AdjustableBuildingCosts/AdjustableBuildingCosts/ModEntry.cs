@@ -30,7 +30,7 @@ namespace AdjustableBuildingCosts
             this.Config = this.Helper.ReadConfig<ModConfig>();
 
             helper.Events.Content.AssetRequested += this.OnAssetRequested;
-            //helper.Events.Display.MenuChanged += this.OnMenuChanged;
+            helper.Events.Display.MenuChanged += this.OnMenuChanged;
         }
 
 
@@ -62,7 +62,7 @@ namespace AdjustableBuildingCosts
                                 fields[0] = formattedCost;
                                 data[itemID] = string.Join("/", fields);
 
-                                this.Monitor.Log("Changed '" + name + "' costs to " + Config.Buildings[name].getFormattedBlueprintCost(), LogLevel.Info);
+                                this.Monitor.Log("Changed '" + name + "' costs to " + Config.Buildings[name].getFormattedBlueprintCost(), LogLevel.Debug);
                             }
                         }
                     }
@@ -78,52 +78,25 @@ namespace AdjustableBuildingCosts
             if (!Context.IsWorldReady)
                 return;
 
-            this.Monitor.Log("Menu full name -> " + e.NewMenu?.GetType().FullName, LogLevel.Info);
-            this.Monitor.Log("Menu class -> " + e.NewMenu?.GetType().Name, LogLevel.Info);
-
-
-            //return;
-            
-
-            /*if (e.NewMenu is ShopMenu) {
-                // get field
-                IList<BluePrint> blueprints = this.Helper.Reflection
-                    .GetField<List<BluePrint>>(e.NewMenu, "blueprints")
-                    .GetValue();
-
-                foreach (BluePrint bluePrint in blueprints) {
-                    this.Monitor.Log("Blueprint #" + bluePrint.displayName, LogLevel.Info);
-                }
-            }*/
-
-
-            // add blueprints
             if (e.NewMenu is CarpenterMenu) {
+
                 // get field
                 IList<BluePrint> blueprints = this.Helper.Reflection
                     .GetField<List<BluePrint>>(e.NewMenu, "blueprints")
                     .GetValue();
 
-                this.Monitor.Log("How many blueprints -> " + blueprints.Count, LogLevel.Info);
                 
-
-                
-
                 foreach (BluePrint bluePrint in blueprints) {
-                    this.Monitor.Log("Blueprint #" + bluePrint.displayName, LogLevel.Info);
 
-                    bluePrint.moneyRequired = 10;
-                    bluePrint.daysToConstruct = 7;
-                    bluePrint.woodRequired = 0;
-                    
+                    if (Config.Buildings.ContainsKey(bluePrint.displayName)) {
+                        bluePrint.moneyRequired = Config.Buildings[bluePrint.displayName].GoldCost;
+                        bluePrint.daysToConstruct = Config.Buildings[bluePrint.displayName].DaysToBuild;
 
+                        this.Monitor.Log("Changed blueprint '" + bluePrint.displayName + "' gold cost to " + bluePrint.moneyRequired + " and days to build to " + bluePrint.daysToConstruct, LogLevel.Debug);
+                    }
                 }
 
                 ((CarpenterMenu) e.NewMenu).setNewActiveBlueprint();
-                // add garage blueprint
-                //blueprints.Add(this.GetBlueprint());
-
-
             }
         }
     }
