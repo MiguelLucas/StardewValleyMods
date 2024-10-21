@@ -8,6 +8,7 @@ using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
+using StardewValley.GameData.Buildings;
 using StardewValley.Menus;
 
 namespace AdjustableBuildingCosts
@@ -79,30 +80,31 @@ namespace AdjustableBuildingCosts
         /// <inheritdoc cref="IDisplayEvents.MenuChanged"/>
         /// <param name="sender">The event sender.</param>
         /// <param name="e">The event data.</param>
-        private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
+        private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
             if (!Context.IsWorldReady)
                 return;
 
-            if (e.NewMenu is CarpenterMenu) {
+            if (e.NewMenu is CarpenterMenu) {                
+                foreach (CarpenterMenu.BlueprintEntry bluePrint in (e.NewMenu as CarpenterMenu).Blueprints) {
+                    if (Config.Buildings.ContainsKey(bluePrint.DisplayName)) {
+                        BuildingSkin skin = new BuildingSkin();
+                        skin.BuildCost = Config.Buildings[bluePrint.DisplayName].GoldCost;
+                        skin.BuildDays = Config.Buildings[bluePrint.DisplayName].DaysToBuild;
 
-                // get field
-                IList<BluePrint> blueprints = this.Helper.Reflection
-                    .GetField<List<BluePrint>>(e.NewMenu, "blueprints")
-                    .GetValue();
+                        int oldBuildCost = bluePrint.BuildCost;
+                        int oldBuildDays = bluePrint.BuildDays;
+                        skin.Id = "mlucas-coiso";
+                        bluePrint.SetSkin(skin.Id);
 
-                
-                foreach (BluePrint bluePrint in blueprints) {
+                        this.Monitor.Log("Trying to change gold cost to " + Config.Buildings[bluePrint.DisplayName].GoldCost);
 
-                    if (Config.Buildings.ContainsKey(bluePrint.displayName)) {
-                        bluePrint.moneyRequired = Config.Buildings[bluePrint.displayName].GoldCost;
-                        bluePrint.daysToConstruct = Config.Buildings[bluePrint.displayName].DaysToBuild;
-
-                        this.Monitor.Log("Changed blueprint '" + bluePrint.displayName + "' gold cost to " + bluePrint.moneyRequired + " and days to build to " + bluePrint.daysToConstruct, LogLevel.Debug);
+                        this.Monitor.Log("Changed blueprint '" + bluePrint.DisplayName + "' build cost from " + oldBuildCost + " to " + bluePrint.BuildCost, LogLevel.Debug);
+                        this.Monitor.Log("Changed blueprint '" + bluePrint.DisplayName + "' build days from " + oldBuildDays + " to " + bluePrint.BuildDays, LogLevel.Debug);
                     }
                 }
 
-                ((CarpenterMenu) e.NewMenu).setNewActiveBlueprint();
+                ((CarpenterMenu) e.NewMenu).SetNewActiveBlueprint(0);
             }
         }
 
@@ -121,6 +123,8 @@ namespace AdjustableBuildingCosts
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             var buildings = Game1.getFarm().buildings;
+
+            this.Monitor.Log("Testing...");
 
             for (int i = 0; i < buildings.Count; i++) {
                 if (buildings[i].daysOfConstructionLeft.Value > 0) {
@@ -155,7 +159,7 @@ namespace AdjustableBuildingCosts
 
                     upgradingDaysLeft = buildings[i].daysUntilUpgrade.Value;
                     if (!isBuilding) {
-                        upgradingDaysLeft = Config.Buildings[buildings[i].getNameOfNextUpgrade()].DaysToBuild;
+                        upgradingDaysLeft = Config.Buildings[buildings[i].upgradeName.Value].DaysToBuild;
                         buildings[i].daysUntilUpgrade.Value = upgradingDaysLeft;
                         isBuilding = true;
 

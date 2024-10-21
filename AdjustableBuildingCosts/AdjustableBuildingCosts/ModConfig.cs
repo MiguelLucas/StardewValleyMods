@@ -13,8 +13,8 @@ namespace AdjustableBuildingCosts.Framework
         public ModConfig()
         {
             BlueprintCost coop = new BlueprintCost();
-            coop.GoldCost = 4000;
-            coop.Items.Add(new ItemAmount((int) ItemID.WOOD, 300));
+            coop.GoldCost = 14507;
+            coop.Items.Add(new ItemAmount((int) ItemID.WOOD, 894));
             coop.Items.Add(new ItemAmount((int) ItemID.STONE, 100));
 
             BlueprintCost bigCoop = new BlueprintCost();
@@ -29,7 +29,7 @@ namespace AdjustableBuildingCosts.Framework
 
             BlueprintCost barn = new BlueprintCost();
             barn.GoldCost = 6000;
-            barn.Items.Add(new ItemAmount((int) ItemID.WOOD, 350));
+            barn.Items.Add(new ItemAmount((int) ItemID.WOOD, 487));
             barn.Items.Add(new ItemAmount((int) ItemID.STONE, 150));
 
             BlueprintCost bigBarn = new BlueprintCost();
