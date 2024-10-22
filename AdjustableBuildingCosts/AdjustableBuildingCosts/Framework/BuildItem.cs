@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace AdjustableBuildingCosts.Framework
 {
-    class ItemAmount
+    class BuildItem
     {
-        public int ItemID { get; set; } = 300;
+        public int ItemId { get; set; } = (int)ItemID.WOOD;
         public int Amount { get; set; } = 1000;
 
-        public ItemAmount(int ItemID, int Amount)
+        public BuildItem(int ItemID, int Amount)
         {
-            this.ItemID = ItemID;
+            this.ItemId = ItemID;
             this.Amount = Amount;
         }
     }

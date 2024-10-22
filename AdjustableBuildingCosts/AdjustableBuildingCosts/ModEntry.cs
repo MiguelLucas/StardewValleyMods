@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AdjustableBuildingCosts.Framework;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
 using StardewValley;
-using StardewValley.Buildings;
 using StardewValley.GameData.Buildings;
 using StardewValley.Menus;
 
@@ -34,82 +29,13 @@ namespace AdjustableBuildingCosts
         {
             this.Config = this.Helper.ReadConfig<ModConfig>();
 
-            helper.Events.Content.AssetRequested += this.OnAssetRequested;
-            helper.Events.Display.MenuChanged += this.OnMenuChanged;
             helper.Events.GameLoop.DayStarted += this.OnDayStarted;
             helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
         }
 
-
-        /*********
-        ** Private methods
-        *********/
-
-        /// <inheritdoc cref="IContentEvents.AssetRequested"/>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
-        private void OnAssetRequested(object sender, AssetRequestedEventArgs e)
-        {
-            if (e.NameWithoutLocale.IsEquivalentTo("Data/Blueprints")) {
-                e.Edit(asset =>
-                {
-                    var data = asset.AsDictionary<string, string>().Data;
-
-
-                    foreach (string itemID in data.Keys) {
-
-                        string[] fields = data[itemID].Split('/');
-
-                        if (fields.Length > 8) {
-                            string name = fields[8];
-                            string formattedCost = "";
-
-                            if (Config.Buildings.ContainsKey(name)) {
-                                formattedCost = Config.Buildings[name].getFormattedBlueprintCost();
-                                fields[0] = formattedCost;
-                                data[itemID] = string.Join("/", fields);
-
-                                this.Monitor.Log("Changed '" + name + "' costs to " + Config.Buildings[name].getFormattedBlueprintCost(), LogLevel.Debug);
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        /// <inheritdoc cref="IDisplayEvents.MenuChanged"/>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
-        private void OnMenuChanged(object sender, MenuChangedEventArgs e)
-        {
-            if (!Context.IsWorldReady)
-                return;
-
-            if (e.NewMenu is CarpenterMenu) {                
-                foreach (CarpenterMenu.BlueprintEntry bluePrint in (e.NewMenu as CarpenterMenu).Blueprints) {
-                    if (Config.Buildings.ContainsKey(bluePrint.DisplayName)) {
-                        BuildingSkin skin = new BuildingSkin();
-                        skin.BuildCost = Config.Buildings[bluePrint.DisplayName].GoldCost;
-                        skin.BuildDays = Config.Buildings[bluePrint.DisplayName].DaysToBuild;
-
-                        int oldBuildCost = bluePrint.BuildCost;
-                        int oldBuildDays = bluePrint.BuildDays;
-                        skin.Id = "mlucas-coiso";
-                        bluePrint.SetSkin(skin.Id);
-
-                        this.Monitor.Log("Trying to change gold cost to " + Config.Buildings[bluePrint.DisplayName].GoldCost);
-
-                        this.Monitor.Log("Changed blueprint '" + bluePrint.DisplayName + "' build cost from " + oldBuildCost + " to " + bluePrint.BuildCost, LogLevel.Debug);
-                        this.Monitor.Log("Changed blueprint '" + bluePrint.DisplayName + "' build days from " + oldBuildDays + " to " + bluePrint.BuildDays, LogLevel.Debug);
-                    }
-                }
-
-                ((CarpenterMenu) e.NewMenu).SetNewActiveBlueprint(0);
-            }
-        }
-
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
         {
+
             var buildings = Game1.getFarm().buildings;
             for (int i = 0; i < buildings.Count; i++) {
                 if (buildings[i].daysOfConstructionLeft.Value > 0 || buildings[i].daysUntilUpgrade.Value > 0) {
@@ -118,23 +44,44 @@ namespace AdjustableBuildingCosts
                     break;
                 }
             }
+
+            foreach (KeyValuePair<string, BuildingData> entry in Game1.buildingData){
+                if (Config.Buildings.ContainsKey(entry.Key)) {
+                    int oldBuildCost = entry.Value.BuildCost;
+                    int oldBuildDays = entry.Value.BuildDays;
+                    entry.Value.BuildCost = Config.Buildings[entry.Key].GoldCost;
+                    entry.Value.BuildDays = Config.Buildings[entry.Key].DaysToBuild;
+
+                    Monitor.Log("Changed build cost of " + entry.Key + " from " + oldBuildCost + " to " + entry.Value.BuildCost, LogLevel.Trace);
+                    Monitor.Log("Changed build days of " + entry.Key + " from " + oldBuildDays + " to " + entry.Value.BuildDays, LogLevel.Trace);
+
+                    if (entry.Value.BuildMaterials != null) {
+                        entry.Value.BuildMaterials.Clear();
+                        foreach (BuildItem buildItem in Config.Buildings[entry.Key].BuildItems) {
+                            BuildingMaterial buildingMaterial = new BuildingMaterial();
+                            buildingMaterial.ItemId = buildItem.ItemId.ToString();
+                            buildingMaterial.Amount = buildItem.Amount;
+                            entry.Value.BuildMaterials.Add(buildingMaterial);
+                            Monitor.Log("Added " + buildingMaterial.Amount + " building material with Id " + buildingMaterial.ItemId, LogLevel.Trace);
+                        }
+                    }
+                } 
+            }
         }
 
         private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
             var buildings = Game1.getFarm().buildings;
 
-            this.Monitor.Log("Testing...");
-
             for (int i = 0; i < buildings.Count; i++) {
                 if (buildings[i].daysOfConstructionLeft.Value > 0) {
-                    /*Monitor.Log("------------- Inside construction ------------", LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].ToString(), LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].nameOfIndoors, LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].daysUntilUpgrade.ToString(), LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].daysOfConstructionLeft.ToString(), LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].buildingType.Value, LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].getNameOfNextUpgrade(), LogLevel.Debug);*/
+                    // Monitor.Log("------------- Inside construction ------------", LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].ToString(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].GetIndoorsName(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].daysUntilUpgrade.ToString(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].daysOfConstructionLeft.ToString(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].buildingType.Value, LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].upgradeName, LogLevel.Debug);
 
                     buildingDaysLeft = buildings[i].daysOfConstructionLeft.Value;
 
@@ -149,13 +96,13 @@ namespace AdjustableBuildingCosts
                 }
 
                 if (buildings[i].daysUntilUpgrade.Value > 0) {
-                    /*Monitor.Log("------------ Inside upgrade -------------", LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].ToString(), LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].nameOfIndoors, LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].daysUntilUpgrade.ToString(), LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].daysOfConstructionLeft.ToString(), LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].buildingType.Value, LogLevel.Debug);
-                    Monitor.Log("Building -> " + buildings[i].getNameOfNextUpgrade(), LogLevel.Debug);*/
+                    // Monitor.Log("------------ Inside upgrade -------------", LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].ToString(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].GetIndoorsName(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].daysUntilUpgrade.ToString(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].daysOfConstructionLeft.ToString(), LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].buildingType.Value, LogLevel.Debug);
+                    // Monitor.Log("Building -> " + buildings[i].upgradeName, LogLevel.Debug);
 
                     upgradingDaysLeft = buildings[i].daysUntilUpgrade.Value;
                     if (!isBuilding) {
@@ -168,25 +115,25 @@ namespace AdjustableBuildingCosts
                     }
                 }
 
-                /*Monitor.Log("------------- General ------------", LogLevel.Debug);
-                Monitor.Log("Building -> " + buildings[i].ToString(), LogLevel.Debug);
-                Monitor.Log("Building -> " + buildings[i].nameOfIndoors, LogLevel.Debug);
-                Monitor.Log("Building -> " + buildings[i].daysUntilUpgrade.ToString(), LogLevel.Debug);
-                Monitor.Log("Building -> " + buildings[i].daysOfConstructionLeft.ToString(), LogLevel.Debug);
-                Monitor.Log("Building -> " + buildings[i].buildingType.Value, LogLevel.Debug);
-                Monitor.Log("Building -> " + buildings[i].getNameOfNextUpgrade(), LogLevel.Debug);*/
+                // Monitor.Log("------------- General ------------", LogLevel.Debug);
+                // Monitor.Log("Building -> " + buildings[i].ToString(), LogLevel.Debug);
+                // Monitor.Log("Building -> " + buildings[i].GetIndoorsName(), LogLevel.Debug);
+                // Monitor.Log("Building -> " + buildings[i].daysUntilUpgrade.ToString(), LogLevel.Debug);
+                // Monitor.Log("Building -> " + buildings[i].daysOfConstructionLeft.ToString(), LogLevel.Debug);
+                // Monitor.Log("Building -> " + buildings[i].buildingType.Value, LogLevel.Debug);
+                // Monitor.Log("Building -> " + buildings[i].upgradeName, LogLevel.Debug);
             }
 
             if (upgradingDaysLeft <= 1 && buildingDaysLeft <= 1) {
                 isBuilding = false;
-                //Monitor.Log("Resetting daysLeft", LogLevel.Debug);
+                Monitor.Log("Resetting daysLeft", LogLevel.Debug);
                 buildingDaysLeft = 0;
                 upgradingDaysLeft = 0;
             }
 
-            /*Monitor.Log("isBuilding -> " + isBuilding, LogLevel.Debug);
-            Monitor.Log("upgradingDaysLeft -> " + upgradingDaysLeft, LogLevel.Debug);
-            Monitor.Log("buildingDaysLeft -> " + buildingDaysLeft, LogLevel.Debug);*/
+            // Monitor.Log("isBuilding -> " + isBuilding, LogLevel.Debug);
+            // Monitor.Log("upgradingDaysLeft -> " + upgradingDaysLeft, LogLevel.Debug);
+            // Monitor.Log("buildingDaysLeft -> " + buildingDaysLeft, LogLevel.Debug);
         }
     }
 }

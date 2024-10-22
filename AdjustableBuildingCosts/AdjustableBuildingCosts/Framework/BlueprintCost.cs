@@ -13,7 +13,7 @@ namespace AdjustableBuildingCosts.Framework
         /// <summary>The color to use for the <see cref="Farmer.fishingSkill"/> skill.</summary>
         public int GoldCost { get; set; } = 1000;
 
-        public List<ItemAmount> Items { get; set; } = new List<ItemAmount>();
+        public List<BuildItem> BuildItems { get; set; } = new List<BuildItem>();
 
         public int DaysToBuild { get; set; } = 2;
 
@@ -21,8 +21,8 @@ namespace AdjustableBuildingCosts.Framework
         {
             string formattedCost = "";
 
-            foreach (ItemAmount item in Items) {
-                formattedCost += item.ItemID + " " + item.Amount + " ";
+            foreach (BuildItem item in BuildItems) {
+                formattedCost += item.ItemId + " " + item.Amount + " ";
             }
 
             formattedCost.Trim();

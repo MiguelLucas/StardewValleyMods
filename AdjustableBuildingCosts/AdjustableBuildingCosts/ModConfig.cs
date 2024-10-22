@@ -13,112 +13,115 @@ namespace AdjustableBuildingCosts.Framework
         public ModConfig()
         {
             BlueprintCost coop = new BlueprintCost();
-            coop.GoldCost = 14507;
-            coop.Items.Add(new ItemAmount((int) ItemID.WOOD, 894));
-            coop.Items.Add(new ItemAmount((int) ItemID.STONE, 100));
+            coop.GoldCost = 4000;
+            coop.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 300));
+            coop.BuildItems.Add(new BuildItem((int) ItemID.STONE, 100));
 
             BlueprintCost bigCoop = new BlueprintCost();
             bigCoop.GoldCost = 10000;
-            bigCoop.Items.Add(new ItemAmount((int) ItemID.WOOD, 400));
-            bigCoop.Items.Add(new ItemAmount((int) ItemID.STONE, 150));
+            bigCoop.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 400));
+            bigCoop.BuildItems.Add(new BuildItem((int) ItemID.STONE, 150));
 
             BlueprintCost deluxeCoop = new BlueprintCost();
             deluxeCoop.GoldCost = 20000;
-            deluxeCoop.Items.Add(new ItemAmount((int) ItemID.WOOD, 500));
-            deluxeCoop.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
+            deluxeCoop.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 500));
+            deluxeCoop.BuildItems.Add(new BuildItem((int) ItemID.STONE, 200));
 
             BlueprintCost barn = new BlueprintCost();
             barn.GoldCost = 6000;
-            barn.Items.Add(new ItemAmount((int) ItemID.WOOD, 487));
-            barn.Items.Add(new ItemAmount((int) ItemID.STONE, 150));
+            barn.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 350));
+            barn.BuildItems.Add(new BuildItem((int) ItemID.STONE, 150));
 
             BlueprintCost bigBarn = new BlueprintCost();
             bigBarn.GoldCost = 12000;
-            bigBarn.Items.Add(new ItemAmount((int) ItemID.WOOD, 450));
-            bigBarn.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
+            bigBarn.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 450));
+            bigBarn.BuildItems.Add(new BuildItem((int) ItemID.STONE, 200));
 
             BlueprintCost deluxeBarn = new BlueprintCost();
             deluxeBarn.GoldCost = 25000;
-            deluxeBarn.Items.Add(new ItemAmount((int) ItemID.WOOD, 550));
-            deluxeBarn.Items.Add(new ItemAmount((int) ItemID.STONE, 300));
+            deluxeBarn.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 550));
+            deluxeBarn.BuildItems.Add(new BuildItem((int) ItemID.STONE, 300));
 
             BlueprintCost shed = new BlueprintCost();
             shed.GoldCost = 15000;
-            shed.Items.Add(new ItemAmount((int) ItemID.WOOD, 300));
+            shed.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 300));
 
             BlueprintCost bigShed = new BlueprintCost();
             bigShed.GoldCost = 20000;
-            bigShed.Items.Add(new ItemAmount((int) ItemID.WOOD, 550));
-            bigShed.Items.Add(new ItemAmount((int) ItemID.STONE, 300));
+            bigShed.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 550));
+            bigShed.BuildItems.Add(new BuildItem((int) ItemID.STONE, 300));
 
             BlueprintCost silo = new BlueprintCost();
             silo.GoldCost = 1000;
-            silo.Items.Add(new ItemAmount((int) ItemID.STONE, 100));
-            silo.Items.Add(new ItemAmount((int) ItemID.CLAY, 10));
-            silo.Items.Add(new ItemAmount((int) ItemID.COPPER_BAR, 5));
+            silo.BuildItems.Add(new BuildItem((int) ItemID.STONE, 100));
+            silo.BuildItems.Add(new BuildItem((int) ItemID.CLAY, 10));
+            silo.BuildItems.Add(new BuildItem((int) ItemID.COPPER_BAR, 5));
 
             BlueprintCost mill = new BlueprintCost();
             mill.GoldCost = 2500;
-            mill.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
-            mill.Items.Add(new ItemAmount((int) ItemID.STONE, 50));
-            mill.Items.Add(new ItemAmount((int) ItemID.CLOTH, 4));
+            mill.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 150));
+            mill.BuildItems.Add(new BuildItem((int) ItemID.STONE, 50));
+            mill.BuildItems.Add(new BuildItem((int) ItemID.CLOTH, 4));
 
             BlueprintCost well = new BlueprintCost();
             well.GoldCost = 1000;
-            well.Items.Add(new ItemAmount((int) ItemID.STONE, 75));
+            well.BuildItems.Add(new BuildItem((int) ItemID.STONE, 75));
 
             BlueprintCost fishPond = new BlueprintCost();
             fishPond.GoldCost = 5000;
-            fishPond.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
-            fishPond.Items.Add(new ItemAmount((int) ItemID.SEAWEED, 5));
-            fishPond.Items.Add(new ItemAmount((int) ItemID.GREEN_ALGAE, 5));
+            fishPond.BuildItems.Add(new BuildItem((int) ItemID.STONE, 200));
+            fishPond.BuildItems.Add(new BuildItem((int) ItemID.SEAWEED, 5));
+            fishPond.BuildItems.Add(new BuildItem((int) ItemID.GREEN_ALGAE, 5));
 
             BlueprintCost stable = new BlueprintCost();
             stable.GoldCost = 10000;
-            stable.Items.Add(new ItemAmount((int) ItemID.HARDWOOD, 100));
-            stable.Items.Add(new ItemAmount((int) ItemID.IRON_BAR, 5));
+            stable.BuildItems.Add(new BuildItem((int) ItemID.HARDWOOD, 100));
+            stable.BuildItems.Add(new BuildItem((int) ItemID.IRON_BAR, 5));
 
             BlueprintCost slimeHutch = new BlueprintCost();
             slimeHutch.GoldCost = 10000;
-            slimeHutch.Items.Add(new ItemAmount((int) ItemID.STONE, 500));
-            slimeHutch.Items.Add(new ItemAmount((int) ItemID.REFINED_QUARTZ, 10));
-            slimeHutch.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 1));
+            slimeHutch.BuildItems.Add(new BuildItem((int) ItemID.STONE, 500));
+            slimeHutch.BuildItems.Add(new BuildItem((int) ItemID.REFINED_QUARTZ, 10));
+            slimeHutch.BuildItems.Add(new BuildItem((int) ItemID.IRIDIUM_BAR, 1));
+
+            BlueprintCost cabin = new BlueprintCost();
+            cabin.GoldCost = 100;
 
             BlueprintCost shippingBin = new BlueprintCost();
             shippingBin.GoldCost = 250;
-            shippingBin.Items.Add(new ItemAmount((int) ItemID.WOOD, 150));
+            shippingBin.BuildItems.Add(new BuildItem((int) ItemID.WOOD, 150));
 
             BlueprintCost goldClock = new BlueprintCost();
             goldClock.GoldCost = 10000000;
 
             BlueprintCost junimoHut = new BlueprintCost();
             junimoHut.GoldCost = 20000;
-            junimoHut.Items.Add(new ItemAmount((int) ItemID.STONE, 200));
-            junimoHut.Items.Add(new ItemAmount((int) ItemID.FIBER, 100));
-            junimoHut.Items.Add(new ItemAmount((int) ItemID.STARFRUIT, 9));
+            junimoHut.BuildItems.Add(new BuildItem((int) ItemID.STONE, 200));
+            junimoHut.BuildItems.Add(new BuildItem((int) ItemID.FIBER, 100));
+            junimoHut.BuildItems.Add(new BuildItem((int) ItemID.STARFRUIT, 9));
 
             BlueprintCost desertObelisk = new BlueprintCost();
             desertObelisk.GoldCost = 1000000;
-            desertObelisk.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 20));
-            desertObelisk.Items.Add(new ItemAmount((int) ItemID.COCONUT, 10));
-            desertObelisk.Items.Add(new ItemAmount((int) ItemID.CACTUS_FRUIT, 10));
+            desertObelisk.BuildItems.Add(new BuildItem((int) ItemID.IRIDIUM_BAR, 20));
+            desertObelisk.BuildItems.Add(new BuildItem((int) ItemID.COCONUT, 10));
+            desertObelisk.BuildItems.Add(new BuildItem((int) ItemID.CACTUS_FRUIT, 10));
 
             BlueprintCost earthObelisk = new BlueprintCost();
             earthObelisk.GoldCost = 500000;
-            earthObelisk.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 10));
-            earthObelisk.Items.Add(new ItemAmount((int) ItemID.EARTH_CRYSTAL, 10));
+            earthObelisk.BuildItems.Add(new BuildItem((int) ItemID.IRIDIUM_BAR, 10));
+            earthObelisk.BuildItems.Add(new BuildItem((int) ItemID.EARTH_CRYSTAL, 10));
 
             BlueprintCost islandObelisk = new BlueprintCost();
             islandObelisk.GoldCost = 1000000;
-            islandObelisk.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 10));
-            islandObelisk.Items.Add(new ItemAmount((int) ItemID.BANANA, 10));
-            islandObelisk.Items.Add(new ItemAmount((int) ItemID.DRAGON_TOOTH, 10));
+            islandObelisk.BuildItems.Add(new BuildItem((int) ItemID.IRIDIUM_BAR, 10));
+            islandObelisk.BuildItems.Add(new BuildItem((int) ItemID.BANANA, 10));
+            islandObelisk.BuildItems.Add(new BuildItem((int) ItemID.DRAGON_TOOTH, 10));
 
             BlueprintCost waterObelisk = new BlueprintCost();
             waterObelisk.GoldCost = 500000;
-            waterObelisk.Items.Add(new ItemAmount((int) ItemID.IRIDIUM_BAR, 5));
-            waterObelisk.Items.Add(new ItemAmount((int) ItemID.CLAM, 10));
-            waterObelisk.Items.Add(new ItemAmount((int) ItemID.CORAL, 10));
+            waterObelisk.BuildItems.Add(new BuildItem((int) ItemID.IRIDIUM_BAR, 5));
+            waterObelisk.BuildItems.Add(new BuildItem((int) ItemID.CLAM, 10));
+            waterObelisk.BuildItems.Add(new BuildItem((int) ItemID.CORAL, 10));
 
 
             Buildings.Add("Coop", coop);
@@ -136,6 +139,7 @@ namespace AdjustableBuildingCosts.Framework
             Buildings.Add("Stable", stable);
             Buildings.Add("Slime Hutch", slimeHutch);
             Buildings.Add("Shipping Bin", shippingBin);
+            Buildings.Add("Cabin", cabin);
 
             Buildings.Add("Gold Clock", goldClock);
             Buildings.Add("Junimo Hut", junimoHut);
