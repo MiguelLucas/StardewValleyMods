@@ -4,7 +4,6 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.GameData.Buildings;
-using StardewValley.Menus;
 
 namespace AdjustableBuildingCosts
 {
@@ -31,6 +30,7 @@ namespace AdjustableBuildingCosts
 
             helper.Events.GameLoop.DayStarted += this.OnDayStarted;
             helper.Events.GameLoop.SaveLoaded += this.OnSaveLoaded;
+            helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
         }
 
         private void OnSaveLoaded(object sender, SaveLoadedEventArgs e)
@@ -45,7 +45,7 @@ namespace AdjustableBuildingCosts
                 }
             }
 
-            foreach (KeyValuePair<string, BuildingData> entry in Game1.buildingData){
+            foreach (KeyValuePair<string, BuildingData> entry in Game1.buildingData) {
                 if (Config.Buildings.ContainsKey(entry.Key)) {
                     int oldBuildCost = entry.Value.BuildCost;
                     int oldBuildDays = entry.Value.BuildDays;
@@ -58,11 +58,13 @@ namespace AdjustableBuildingCosts
                     if (entry.Value.BuildMaterials != null) {
                         entry.Value.BuildMaterials.Clear();
                         foreach (BuildItem buildItem in Config.Buildings[entry.Key].BuildItems) {
-                            BuildingMaterial buildingMaterial = new BuildingMaterial();
-                            buildingMaterial.ItemId = buildItem.ItemId.ToString();
-                            buildingMaterial.Amount = buildItem.Amount;
-                            entry.Value.BuildMaterials.Add(buildingMaterial);
-                            Monitor.Log("Added " + buildingMaterial.Amount + " building material with Id " + buildingMaterial.ItemId, LogLevel.Trace);
+                            if (buildItem.ItemId >= 0 && buildItem.Amount > 0) {
+                                BuildingMaterial buildingMaterial = new BuildingMaterial();
+                                buildingMaterial.ItemId = buildItem.ItemId.ToString();
+                                buildingMaterial.Amount = buildItem.Amount;
+                                entry.Value.BuildMaterials.Add(buildingMaterial);
+                                Monitor.Log("Added " + buildingMaterial.Amount + " building material with Id " + buildingMaterial.ItemId, LogLevel.Trace);
+                            }
                         }
                     }
                 } 
@@ -134,6 +136,18 @@ namespace AdjustableBuildingCosts
             // Monitor.Log("isBuilding -> " + isBuilding, LogLevel.Debug);
             // Monitor.Log("upgradingDaysLeft -> " + upgradingDaysLeft, LogLevel.Debug);
             // Monitor.Log("buildingDaysLeft -> " + buildingDaysLeft, LogLevel.Debug);
+        }
+
+        private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+        {
+            Monitor.Log("Adding config menu!!!", LogLevel.Alert);
+            var configMenu = new GenericModConfigMenuIntegration(
+                manifest: this.ModManifest,
+                modRegistry: this.Helper.ModRegistry,
+                config: this.Config,
+                save: () => this.Helper.WriteConfig(this.Config)
+            );
+            configMenu.Register();
         }
     }
 }
