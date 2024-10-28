@@ -92,7 +92,7 @@ namespace AdjustableBuildingCosts
                         buildings[i].daysOfConstructionLeft.Value = buildingDaysLeft;
                         isBuilding = true;
 
-                        Monitor.Log("Setting days to construct to " + buildings[i].daysOfConstructionLeft.Value + " for " + buildings[i].buildingType.Value, LogLevel.Debug);
+                        //Monitor.Log("Setting days to construct to " + buildings[i].daysOfConstructionLeft.Value + " for " + buildings[i].buildingType.Value, LogLevel.Debug);
                         break;
                     }
                 }
@@ -112,7 +112,7 @@ namespace AdjustableBuildingCosts
                         buildings[i].daysUntilUpgrade.Value = upgradingDaysLeft;
                         isBuilding = true;
 
-                        Monitor.Log("Setting days to upgrade to " + buildings[i].daysUntilUpgrade.Value + " for " + buildings[i].buildingType.Value, LogLevel.Debug);
+                        //Monitor.Log("Setting days to upgrade to " + buildings[i].daysUntilUpgrade.Value + " for " + buildings[i].buildingType.Value, LogLevel.Debug);
                         break;
                     }
                 }
@@ -128,7 +128,7 @@ namespace AdjustableBuildingCosts
 
             if (upgradingDaysLeft <= 1 && buildingDaysLeft <= 1) {
                 isBuilding = false;
-                Monitor.Log("Resetting daysLeft", LogLevel.Debug);
+                //Monitor.Log("Resetting daysLeft", LogLevel.Debug);
                 buildingDaysLeft = 0;
                 upgradingDaysLeft = 0;
             }
@@ -140,7 +140,6 @@ namespace AdjustableBuildingCosts
 
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
         {
-            Monitor.Log("Adding config menu!!!", LogLevel.Alert);
             var configMenu = new GenericModConfigMenuIntegration(
                 manifest: this.ModManifest,
                 modRegistry: this.Helper.ModRegistry,
